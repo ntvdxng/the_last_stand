@@ -72,12 +72,11 @@ class Enemy(pygame.sprite.Sprite):
         self.update_animation()
         
         # ve hinh anh tren man hinh
-        if self.is_flying:
+        if self.is_flying == True:
             surface.blit(self.image, (self.rect.x - 30, self.rect.y - 15))
         else:
             surface.blit(self.image, (self.rect.x - 8, self.rect.y - 13))
-        pygame.draw.rect(surface, (255, 0, 0), self.rect, 1)
-        # surface.blit(self.image, (self.rect.x - 8, self.rect.y - 13))
+        # pygame.draw.rect(surface, (255, 0, 0), self.rect, 1)
 
     def update_animation(self):
         animation_cooldown = 35
