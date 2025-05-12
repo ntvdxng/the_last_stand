@@ -25,7 +25,7 @@ level = 1
 high_score = 0 # diem cao nhat
 level_difficulty = 0 # do kho
 target_difficulty = 1000 # do kho muc tieu
-difficulty_multiplier = 1.25 # he so do kho
+difficulty_multiplier = 1.175 # he so do kho
 game_over = False # bien kiem tra game over
 next_level = False # bien kiem tra chuyen level
 enemy_timer = 1000 # thoi gian tao enemy moi
@@ -74,8 +74,8 @@ bullet_image = pygame.transform.scale(bullet_image, (int(bullet_width * 0.075), 
 
 # them quan dich
 enemy_animations = [] # danh sach chua cac hinh anh chinh
-enemy_types = ['young_orc', 'orc', 'bat_orc', 'knight_orc', 'toxin', 'tron', 'purple_cyclop'] # danh sach cac loai quai
-enemy_health = [100, 150, 200, 250, 300, 350, 400] # mau cua tung loai quai
+enemy_types = ['young_orc', 'orc', 'bat_orc', 'knight_orc', 'toxin', 'tron', 'purple_cyclop','bee'] # danh sach cac loai quai
+enemy_health = [100, 150, 200, 250, 300, 350, 400, 100] # mau cua tung loai quai
 
 animation_types = ['walk', 'attack', 'die'] # cac hinh anh di chuyen, tan cong, chet
 for enemy in enemy_types: # duyet qua tung loai quai
@@ -126,7 +126,7 @@ class Castle():
         self.health = 1000
         self.max_health = self.health
         self.fired = False # bien kiem tra da ban hay chua
-        self.money = 500000500000
+        self.money = 500000
         self.score = 0
         
         width = image100.get_width()
@@ -203,7 +203,7 @@ class Tower(pygame.sprite.Sprite): # ke thua tu lop sprite
         self.got_target = False # mac dinh chua co muc tieu
         
         for e in enemy_group: # duyet qua tung enemy
-            if e.alive:
+            if e.alive and e.is_flying == False:
                 target_x, target_y = e.rect.midbottom # lay vi tri enemy
                 self.got_target = True # da co muc tieu
                 break
@@ -339,7 +339,10 @@ while running:
             if pygame.time.get_ticks() - last_enemy > enemy_timer:
                 # tao ra enemy
                 e = random.randint(0, len(enemy_types) - 1) # random enemy
-                enemy = Enemy(enemy_health[e], enemy_animations[e], -50, screen_height - 120, 1)
+                if enemy_types[e] == 'bee':
+                    enemy = Enemy(enemy_health[e], enemy_animations[e], -50, screen_height - 250, 1, is_flying=True) # enemy bay
+                else:
+                    enemy = Enemy(enemy_health[e], enemy_animations[e], -50, screen_height - 120, 1, is_flying=False) # enemy khong bay
                 enemy_group.add(enemy) # them enemy vao group
                 # cap nhat thoi gian tao enemy cuoi cung
                 last_enemy = pygame.time.get_ticks()
